@@ -151,6 +151,9 @@ function configure_retroarch() {
     iniSet "core_options_path" "$configdir/all/retroarch-core-options.cfg"
     isPlatform "x11" && iniSet "video_fullscreen" "true"
 
+	# compensate input latency on hikey
+	isPlatform "hikey620" && iniSet "video_hard_sync" "true"
+
     # set default render resolution to 640x480 for rpi1
     if isPlatform "rpi1"; then
         iniSet "video_fullscreen_x" "640"
