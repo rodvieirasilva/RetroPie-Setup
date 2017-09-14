@@ -246,6 +246,17 @@ function get_platform() {
                 __platform="odroid-xu"
                 ;;
             *)
+				# extract platform model from device tree for 96Boards
+				local plat="$(tr -d '\0' < /proc/device-tree/model)"
+				case "$plat" in
+            		"Qualcomm Technologies, Inc. APQ 8016 SBC")
+						__platform="db410c"
+                		;;
+	    			"HiKey Development Board")
+						__platform="hikey"
+						;;
+        		esac
+
                 case $architecture in
                     i686|x86_64|amd64)
                         __platform="x86"
@@ -348,3 +359,17 @@ function platform_imx6() {
     __default_makeflags="-j2"
     __platform_flags="arm armv7 neon"
 }
+
+function platform_db410c() {
+    __default_cflags="-O2 -march=armv8-a -mtune=cortex-a53 -ftree-vectorize -funsafe-math-optimizations"
+    __default_asflags=""
+    __default_makeflags="-j2"
+    __platform_flags="armv8 x11"
+}
+function platform_hikey() {
+    __default_cflags="-O2 -march=armv8-a -mtune=cortex-a53 -ftree-vectorize -funsafe-math-optimizations"
+    __default_asflags=""
+    __default_makeflags="-j2"
+    __platform_flags="armv8 x11"
+}
+

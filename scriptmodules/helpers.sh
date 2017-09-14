@@ -197,6 +197,9 @@ function getDepends() {
     # check whether to use our own sdl2 - can be disabled to resolve issues with
     # mixing custom 64bit sdl2 and os distributed i386 version on multiarch
     local own_sdl2=1
+	# do not use custom sdl2 for 96Boards
+	if isPlatform "db410c"; then own_sdl2=0; fi
+	if isPlatform "hikey"; then own_sdl2=0; fi
     iniConfig " = " '"' "$configdir/all/retropie.cfg"
     iniGet "own_sdl2"
     [[ "$ini_value" == "0" ]] && own_sdl2=0
